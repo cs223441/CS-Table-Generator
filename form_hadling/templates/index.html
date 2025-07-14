@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS Table Generator</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: #22223b;
+            color: #f2e9e4;
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            box-shadow: 0 2px 8px rgba(34,34,59,0.1);
+        }
+        .container {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            padding: 2rem 2.5rem;
+            text-align: center;
+            animation: fadeIn 1.2s cubic-bezier(.39,.575,.565,1) both;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(40px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        label {
+            font-size: 1.1rem;
+            color: #22223b;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 500;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #9a8c98;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            transition: border 0.3s;
+        }
+        input[type="number"]:focus {
+            border: 1.5px solid #4a4e69;
+            outline: none;
+        }
+        button {
+            background: linear-gradient(90deg, #4a4e69 0%, #9a8c98 100%);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2.2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(74,78,105,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        button:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 8px 24px rgba(74,78,105,0.18);
+            background: linear-gradient(90deg, #9a8c98 0%, #4a4e69 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        CS Table Generator
+    </div>
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <label for="number">Enter a Number:</label>
+            <input type="number" id="number" name="number" required min="0" placeholder="Any digit(s)">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div>
+       {% if table %}
+         <div class="container">
+                <h2>Generated Table</h2>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                 <thead>
+                      <tr>
+                            <th style="border: 1px solid #9a8c98; padding: 0.5rem; background-color: #f2e9e4;">Number</th>
+                            <th style="border: 1px solid #9a8c98; padding: 0.5rem; background-color: #f2e9e4;">X</th>
+                            <th style="border: 1px solid #9a8c98; padding: 0.5rem; background-color: #f2e9e4;">multiplier</th>
+                            <th style="border: 1px solid #9a8c98; padding: 0.5rem; background-color: #f2e9e4;">=</th>
+                            <th style="border: 1px solid #9a8c98; padding: 0.5rem; background-color: #f2e9e4;">Result</th>
+                      
+                        </tr>
+                 </thead>
+                 <tbody>
+                      {% for u in table %}
+                      <tr>
+                            <td style="border: 1px solid #9a8c98; padding: 0.5rem;">{{u.input}}</td>
+                            <td style="border: 1px solid #9a8c98; padding: 0.5rem;">X</td>
+                            <td style="border: 1px solid #9a8c98; padding: 0.5rem;">{{ u.multiplier }}</td>
+                            <td style="border: 1px solid #9a8c98; padding: 0.5rem;">=</td>
+                            <td style="border: 1px solid #9a8c98; padding: 0.5rem;">{{ u.result }}</td>
+                      </tr>
+                      {% endfor %}
+                 </tbody>
+                </table>
+          </div>
+          {% endif %}
+    </div>
+</body>
+</html>
